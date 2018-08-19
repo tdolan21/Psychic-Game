@@ -3,81 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link type="text/css" href= "assets/css/style.css">
     <title>Psychic Game</title>
 </head>
 <body>
-    <p>Psychic Game!</p>
-
-<!-- sccript tag for JS-->
-
+    <div class="wholegame">
+    <div id="game">
+        <h1>The Psychic Game</h1>
+        <p>Guess what letter I'm thinking of!</p>
+        <p>Total Wins: </p>
+        <p>Total Losses: </p>
+        <p>Guesses Left: </p>
+        <p>Your Guesses so far: </p>
+    </div>
+<script type="text/javascript">
+    var wins = 0;
+    var losses = 0;
+    var guessesLeft = 15;
+    var guessesSoFar = [];
+    var computerChoices = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]; 
     
-	<script type="text/javascript">
-		
-
-         var userAnswers = [];
-        var wins = 0;
-        var losses = 0;
-		 var numGuesses = 9;
-		 
-         var isDuplicate = false;
-for (var i = 0; i < userAnswers.length; i++) { //for every previous answer
-    if (currentAnswer == userAnswers[i]) { //check if the current answer is a previous one
-        isDuplicate = true;
-        
-    }
-}
-if (!isDuplicate) { //different than previous
-    userAnswers[userAnswers.length] = userAnswers;
-    //do other code here
-}
-
     document.onkeyup = function(event) {
-
-		 	var userGuess = event.key;
-
-		 	var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+        var userGuess = String.fromCharCode(event.keyCode).toLowerCase(); 
+        var computerGuess = computerChoices[Math.floor(Math.random()*computerChoices.length)]; 
+        guessesSoFar.push(userGuess); 
+        if (userGuess == computerGuess) {
+            wins++;
+            alert("I never thought I would see the day, you won.");
+            guessesLeft = 15;
+            guessesSoFar.length = 0;  
+        }
+        else if (guessesLeft == 0){
+            losses++;
+            alert("15 tries and you still didn't win");
+            guessesLeft = 15;
+            guessesSoFar.length = 0;
+        }
+        else if (userGuess !== computerGuess){
+            guessesLeft--; 
+        }  
         
-		 	var options = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",];
-		 	
-
-			if (options.indexOf(userGuess) > -1) {
-
-				if (userGuess === computerGuess) {
-					wins++;
-					numGuesses = 9;
-					guessChoices = [];
-				}
-
-				if (userGuess != computerGuess) {
-					numGuesses --;
-					guessChoices.push(userGuess);
-				}
-
-				if (numGuesses === 0) {
-
-				numGuesses = 9;
-				losses ++;
-				guessChoices = [];
-
-				
+        var html = "<h1>Psychic Game</h1>" + 
+        "<p>What letter am I thinking of?</p>" +
+        "<p>Total Wins: " + 
+        wins + 
+        "</p>" +
+        "<p>Total Losses: " + 
+        losses + 
+        "</p>" +
+        "<p>Guesses Left: " + 
+        guessesLeft + 
+        "</p>" +
+        "<p>Your Guesses so far: " +
+        guessesSoFar +
+        "</p>"
+        ;
+        
+        document.querySelector('#game').innerHTML = html;
     }
+</script>
+</div>
 
-			var html = 
-			"<h1> The Psychic Game </h1>" +
-			"<p>Guess what letter I'm thinking of!</p>" +
-			"<p>Wins: " + wins + "</p>" +
-			"<p>Losses: " + losses + "</p>" +
-			"<p>Guesses Left: " + numGuesses + "</p>" +
-			"<p>Your Guesses so far: " + guessChoices.join(", ") + "</p>";
-
-			document.querySelector("#game").innerHTML = html;
-
-			
-			}
-		};
-
-    </script>
     
 </body>
 </html>
